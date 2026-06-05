@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+	int data;
+	struct Node *next;
+};
+struct Node *top=NULL;
+void push(int data)
+{
+	struct Node *newnode;
+	newnode=(struct Node *)malloc(sizeof(struct Node));
+	newnode->data=data;
+	newnode->next=top;
+	top=newnode;
+}
+void disp()
+{
+	struct Node *temp=top;
+	while(temp!=NULL){
+		printf("%d ",temp->data);
+		temp = temp->next;
+        }
+}
+int main()
+{
+    push(11);
+    push(22);
+    push(33);
+    disp();
+    return 0;
+}

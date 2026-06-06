@@ -1,0 +1,48 @@
+#include <stdio.h>
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+void bubbleSort(struct Node *head)
+{
+    struct Node *i, *j;
+    int temp;
+    for(i = head; i != NULL; i = i->next)
+    {
+        for(j = head; j->next != NULL; j = j->next)
+        {
+            if(j->data > j->next->data)
+            {
+                temp = j->data;
+                j->data = j->next->data;
+                j->next->data = temp;
+            }
+        }
+    }
+}
+void display(struct Node *head)
+{
+    while(head != NULL)
+    {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+}
+int main()
+{
+    struct Node n1 = {30, NULL};
+    struct Node n2 = {10, NULL};
+    struct Node n3 = {40, NULL};
+    struct Node n4 = {20, NULL};
+    n1.next = &n2;
+    n2.next = &n3;
+    n3.next = &n4;
+    struct Node *head = &n1;
+    printf("Before sorting: ");
+    display(head);
+    bubbleSort(head);
+    printf("\nAfter sorting: ");
+    display(head);
+    return 0;
+}

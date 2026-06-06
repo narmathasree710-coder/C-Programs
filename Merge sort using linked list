@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node{
+    int data;
+    struct Node *next;
+};
+struct Node* merge(struct Node *a, struct Node *b)
+{
+    if(a == NULL) return b;
+    if(b == NULL) return a;
+    if(a->data < b->data)
+    {
+        a->next = merge(a->next, b);
+        return a;
+    }
+    b->next = merge(a, b->next);
+    return b;
+}
+void mergeSort(struct Node **head)
+{
+    if(*head == NULL || (*head)->next == NULL)
+        return;
+    struct Node *slow = *head;
+    struct Node *fast = (*head)->next;
+    while(fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    struct Node *mid = slow->next;
+    slow->next = NULL;
+    mergeSort(head);
+    mergeSort(&mid);
+    *head = merge(*head, mid);
+}
+void display(struct Node *head)
+{
+    while(head)
+    {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+}
+
+int main()
+{
+    struct Node n1 = {30, NULL};
+    struct Node n2 = {10, NULL};
+    struct Node n3 = {40, NULL};
+    struct Node n4 = {20, NULL};
+    n1.next = &n2;
+    n2.next = &n3;
+    n3.next = &n4;
+    struct Node *head = &n1;
+    printf("Before sorting: ");
+    display(head);
+    mergeSort(&head);
+    printf("\nAfter sorting: ");
+    display(head);
+    return 0;
+}
